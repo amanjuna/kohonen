@@ -1,13 +1,18 @@
-somgrid <- function (xdim = 8, ydim = 6,
+somgrid <- function (xdim = 10, ydim = 10, zdim = 10,
                      topo = c("rectangular", "hexagonal"),
                      neighbourhood.fct = c("bubble", "gaussian"),
-                     toroidal = FALSE) 
+                     toroidal = FALSE, lattice = TRUE) 
 {
   topo <- match.arg(topo)
   x <- 1L:xdim
   y <- 1L:ydim
-  pts <- as.matrix(expand.grid(x = x, y = y))
-
+  if (!lattice) {
+    pts <- as.matrix(expand.grid(x = x, y = y))
+  } else {
+    z <- 1L:zdim
+    pts <- as.matrix(expand.grid(x = x, y = y))
+  }
+  
   if (topo == "hexagonal") {
     pts[, 1L] <- pts[, 1L] + 0.5 * (pts[, 2L]%%2)
     pts[, 2L] <- sqrt(3)/2 * pts[, 2L]
